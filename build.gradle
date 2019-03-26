@@ -1,0 +1,61 @@
+plugins {
+    // Apply the Kotlin JVM plugin to add support for Kotlin on the JVM.
+    id "org.jetbrains.kotlin.jvm" version '1.3.20' apply false
+    id "org.jetbrains.kotlin.kapt" version "1.3.20" apply false
+    id "org.jetbrains.kotlin.plugin.allopen" version "1.3.20" apply false
+}
+
+apply plugin: "idea"
+
+allprojects {
+    version = '0.1.0'
+    apply plugin: "java"
+    apply plugin: "org.jetbrains.kotlin.jvm"
+    apply plugin: "org.jetbrains.kotlin.kapt"
+    apply plugin: "org.jetbrains.kotlin.plugin.allopen"
+
+}
+
+repositories {
+    mavenLocal()
+    jcenter()
+    mavenCentral()
+    maven { url "https://jcenter.bintray.com" }
+}
+
+
+
+subprojects { sp ->
+
+    repositories {
+        mavenLocal()
+        jcenter()
+        mavenCentral()
+    }
+
+    sp.dependencies {
+        implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
+        implementation "org.jetbrains.kotlin:kotlin-reflect"
+
+        runtime "ch.qos.logback:logback-classic:1.2.3"
+
+        testImplementation 'org.jetbrains.kotlin:kotlin-test'
+        testImplementation 'org.jetbrains.kotlin:kotlin-test-junit'
+        testRuntimeOnly "org.jetbrains.kotlin:kotlin-reflect"
+    }
+
+    compileKotlin {
+        kotlinOptions.jvmTarget = "1.8"
+    }
+    compileTestKotlin {
+        kotlinOptions.jvmTarget = "1.8"
+    }
+
+}
+
+task run(type: Exec) {
+    dependsOn ':app:run'
+}
+
+
+

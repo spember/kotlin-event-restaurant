@@ -1,0 +1,13 @@
+dependencies {
+
+    testCompile "org.jetbrains.spek:spek-api:1.1.5"
+
+    testImplementation "org.spekframework.spek2:spek-dsl-jvm:$spekVersion"
+    testRuntimeOnly "org.spekframework.spek2:spek-runner-junit5:$spekVersion"
+}
+
+test {
+    useJUnitPlatform {
+        includeEngines 'spek2'
+    }
+}
