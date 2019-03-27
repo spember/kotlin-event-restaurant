@@ -4,7 +4,6 @@ import org.junit.Assert.assertEquals
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.specification.describe
 import pember.example.ktrestaurant.core.events.EventService
-import pember.example.ktrestaurant.core.identifiers.StreamId
 import pember.example.ktrestaurant.core.restaurant.ChangeName
 import pember.example.ktrestaurant.core.restaurant.HireEmployee
 import pember.example.ktrestaurant.core.restaurant.OpenRestaurant

@@ -13,7 +13,7 @@ dependencyManagement {
 mainClassName = 'pember.example.ktrestaurant.app.Application'
 
 dependencies {
-    implementation project(':core')
+    implementation project(':ker-core')
     implementation project(':ker-storage-inmemory')
 
     implementation "io.micronaut:micronaut-http-client"
