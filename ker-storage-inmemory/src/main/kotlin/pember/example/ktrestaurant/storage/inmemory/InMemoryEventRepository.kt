@@ -14,4 +14,8 @@ class InMemoryEventRepository: EventRepository {
     override fun loadAllForEntity(id: StreamId): List<Event> {
         return journal.filter { it.root == id }
     }
+
+    override fun loadAllAfterRevision(id: StreamId, revision: Int): List<Event> {
+        return journal.filter {it.root == id && it.revision > revision}
+    }
 }

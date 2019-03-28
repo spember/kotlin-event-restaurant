@@ -36,6 +36,10 @@ subprojects { sp ->
     sp.dependencies {
         implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
         implementation "org.jetbrains.kotlin:kotlin-reflect"
+        implementation "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
+        implementation "com.fasterxml.jackson.module:jackson-module-parameter-names:${jacksonVersion}"
+        implementation "com.fasterxml.jackson.datatype:jackson-datatype-jdk8:${jacksonVersion}"
+        implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${jacksonVersion}"
 
         runtime "ch.qos.logback:logback-classic:1.2.3"
 

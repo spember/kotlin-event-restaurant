@@ -11,4 +11,9 @@ class EventService (val eventRepository: EventRepository) {
         eventRepository.persistEvents(entityWithEvents.events)
         return entityWithEvents.entity
     }
+
+    fun <I: StreamId, E: EventSourcedEntity<I>> applyLatestEvents(entity: E): E {
+        eventRepository.loadAllAfterRevision(entity.id, entity.revision).forEach { event -> entity.apply(event) }
+        return entity
+    }
 }
