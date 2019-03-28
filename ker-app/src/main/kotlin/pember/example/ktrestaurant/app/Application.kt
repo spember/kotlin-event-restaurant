@@ -1,15 +1,14 @@
 package pember.example.ktrestaurant.app
 
 import io.micronaut.runtime.Micronaut
-import pember.example.ktrestaurant.core.identifiers.StreamId
+import pember.example.ktrestaurant.core.identifiers.RestaurantId
 import pember.example.ktrestaurant.core.restaurant.Restaurant
-import java.util.*
 
 object Application {
 
     @JvmStatic
     fun main(args: Array<String>) {
-        val p = Restaurant("Alice's", 100, id = StreamId(UUID.randomUUID()))
+        val p = Restaurant("Alice's", 100, RestaurantId())
         println(p)
         println(p.label)
         Micronaut.build()

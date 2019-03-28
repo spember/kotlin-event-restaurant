@@ -2,4 +2,8 @@ package pember.example.ktrestaurant.core.identifiers
 
 import java.util.*
 
-inline class StreamId(val value: UUID)
+abstract class StreamId(val value: UUID) {
+    constructor(): this(UUID.randomUUID())
+}
+
+class RestaurantId : StreamId()

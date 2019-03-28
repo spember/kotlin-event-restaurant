@@ -2,13 +2,18 @@ package pember.example.ktrestaurant.core.restaurant
 
 import pember.example.ktrestaurant.core.EntityWithEvents
 import pember.example.ktrestaurant.core.events.EventService
+import pember.example.ktrestaurant.core.identifiers.RestaurantId
 import pember.example.ktrestaurant.core.identifiers.StreamId
 import java.time.LocalDateTime
 import java.util.*
 
-class RestaurantService(val eventService: EventService, val restaurantRepository: RestaurantRepository){
+class RestaurantService(val eventService: EventService, val restaurantRepository: RestaurantRepository) {
+    /**
+     * Commands (Write operations)
+     */
+
     fun openRestaurant(command: OpenRestaurant): Restaurant {
-        val restaurant = Restaurant(id = StreamId(UUID.randomUUID()))
+        val restaurant = Restaurant(RestaurantId())
         val now = LocalDateTime.now()
 
         return eventService.applyAndPersist(EntityWithEvents(restaurant, listOf(
@@ -33,5 +38,24 @@ class RestaurantService(val eventService: EventService, val restaurantRepository
         return eventService.applyAndPersist(EntityWithEvents(restaurant, listOf(
                 NameChanged(command.updatedName, restaurant.id, restaurant.revision+1, command.userId, LocalDateTime.now())
         )))
+    }
+
+    /**
+     *
+     * Queries
+     *
+     */
+
+    /**
+     * Loads a {@link Restaurant} to current state based on a restaurantId / StreamId
+     */
+    fun loadCurrentState(restaurantId: RestaurantId): Restaurant {
+        // loads a Restaurant, utilizing the repository
+        // add caching?
+        return restaurantRepository.load(restaurantId)
+    }
+
+    fun listCurrent(): List<Restaurant> {
+        return listOf(Restaurant("Test", 5, RestaurantId()))
     }
 }

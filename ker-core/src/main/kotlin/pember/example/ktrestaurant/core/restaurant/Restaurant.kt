@@ -3,11 +3,12 @@ package pember.example.ktrestaurant.core.restaurant
 
 import pember.example.ktrestaurant.core.events.Event
 import pember.example.ktrestaurant.core.EventSourcedEntity
-import pember.example.ktrestaurant.core.identifiers.StreamId
+import pember.example.ktrestaurant.core.identifiers.RestaurantId
 
-class Restaurant(var name: String, var employeeCount: Int, id: StreamId) : EventSourcedEntity(id) {
+class Restaurant(var name: String, var employeeCount: Int, id: RestaurantId) : EventSourcedEntity<RestaurantId>(id) {
     var currentEmployees : List<String> = listOf()
     var yearOpened: Int = 0
+
 
     override fun <T : Event> handle(event: T) {
         // there should be a more streamlined way to do this
@@ -19,14 +20,9 @@ class Restaurant(var name: String, var employeeCount: Int, id: StreamId) : Event
         }
     }
 
-    var label: String
+    var label: String = "Restaurant: $name"
 
-    init {
-        employeeCount = 0
-        label = "Restaurant: $name"
-    }
-
-    constructor(id: StreamId): this("", 0, id)
+    constructor(id: RestaurantId): this("", 0, id)
 
 
     fun handle(event: RestaurantCreated) {

@@ -4,6 +4,7 @@ import org.junit.Assert.assertEquals
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.specification.describe
 import pember.example.ktrestaurant.core.events.EventService
+import pember.example.ktrestaurant.core.identifiers.RestaurantId
 import pember.example.ktrestaurant.core.restaurant.ChangeName
 import pember.example.ktrestaurant.core.restaurant.HireEmployee
 import pember.example.ktrestaurant.core.restaurant.OpenRestaurant
@@ -14,10 +15,9 @@ import kotlin.test.assertTrue
 object RestaurantSpek: Spek({
     describe("Restaurant Service and Repository") {
         val eventRepository = InMemoryEventRepository()
-        val restaurantRepository = InMemoryRestaurantRepository(eventRepository)
         val eventService = EventService(eventRepository)
         val uId = "User123"
-        val restaurantService = RestaurantService(eventService, restaurantRepository)
+        val restaurantService = RestaurantService(eventService, InMemoryRestaurantRepository(eventRepository))
 
         it ("Should work") {
             val restaurant = restaurantService.openRestaurant(OpenRestaurant("Alice's", uId))
@@ -32,7 +32,7 @@ object RestaurantSpek: Spek({
             restaurantService.hireEmployee(HireEmployee(restaurant.id, "Lisa", uId))
 
             // reload
-            val testRestaurant = restaurantRepository.load(restaurant.id)
+            val testRestaurant = restaurantService.loadCurrentState(restaurant.id)
             assertEquals(2, testRestaurant.employeeCount)
             assertEquals("Bob's Burgers", testRestaurant.name)
             assertEquals(LocalDateTime.now().year, testRestaurant.yearOpened)
@@ -51,8 +51,8 @@ object RestaurantSpek: Spek({
             restaurant2 = restaurantService.hireEmployee(HireEmployee(restaurant2.id, "Lisa", uId))
             restaurant1 = restaurantService.changeName(restaurant1, ChangeName(restaurant1.id, "Alice's Restaurant", uId))
 
-            val testR1 = restaurantRepository.load(restaurant1.id)
-            val testR2 = restaurantRepository.load(restaurant2.id)
+            val testR1 = restaurantService.loadCurrentState(restaurant1.id)
+            val testR2 = restaurantService.loadCurrentState(restaurant2.id)
             assertEquals("Alice's Restaurant", testR1.name)
             assertEquals(1, testR1.employeeCount)
 
