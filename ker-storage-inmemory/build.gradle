@@ -6,8 +6,3 @@ dependencies {
     testRuntimeOnly "org.spekframework.spek2:spek-runner-junit5:$spekVersion"
 }
 
-test {
-    useJUnitPlatform {
-        includeEngines 'spek2'
-    }
-}
