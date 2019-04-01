@@ -7,3 +7,5 @@ abstract class StreamId(val value: UUID) {
 }
 
 class RestaurantId : StreamId()
+
+class MenuId: StreamId()
